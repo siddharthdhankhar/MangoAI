@@ -32,7 +32,7 @@ MangoAI/
 
 **1. Clone the repo**
 ```bash
-git clone https://github.com/your-username/MangoAI.git
+git clone https://github.com/siddharthdhankhar/MangoAI.git
 cd MangoAI
 ```
 
