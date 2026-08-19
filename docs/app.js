@@ -7,7 +7,7 @@
  */
 
 // ── CONFIG ────────────────────────────────────────────────────────────────
-const API_BASE = 'https://web-production-617ea.up.railway.app';
+const API_BASE = 'https://mangoai-fz1g.onrender.com';
 
 // ── DOM REFS ──────────────────────────────────────────────────────────────
 const chatWindow     = document.getElementById('chat-window');

@@ -1,0 +1,11 @@
+# Server-only requirements (no desktop/audio packages)
+# Use this for Render/Railway deployment:
+#   pip install -r requirements-server.txt
+
+google-genai>=2.9.0
+python-dotenv>=1.0.0
+requests>=2.31.0
+feedparser>=6.0.11
+wikipedia>=1.4.0
+fastapi>=0.111.0
+uvicorn>=0.29.0
