@@ -29,17 +29,20 @@ SYSTEM_PROMPT = (
 )
 
 
+_client = None
+
 def create_chat():
     """Create and return a Gemini chat session with all tools attached."""
-    api_key = os.getenv("GEMINI_API_KEY")
-    if not api_key:
-        raise ValueError("GEMINI_API_KEY not found. Add it to your .env file.")
-
-    client = genai.Client(api_key=api_key)
+    global _client
+    if _client is None:
+        api_key = os.getenv("GEMINI_API_KEY")
+        if not api_key:
+            raise ValueError("GEMINI_API_KEY not found. Add it to your .env file.")
+        _client = genai.Client(api_key=api_key)
 
     # Gemini reads our Python functions directly.
     # It uses the function name, type hints, and docstring to know when to call each one.
-    chat = client.chats.create(
+    chat = _client.chats.create(
         model="gemini-2.5-flash",
         config=types.GenerateContentConfig(
             tools=ALL_TOOLS,
