@@ -7,9 +7,7 @@
  */
 
 // ── CONFIG ────────────────────────────────────────────────────────────────
-// Change this to your Railway URL after deploying, e.g.:
-//   const API_BASE = 'https://mangoai-production.up.railway.app';
-const API_BASE = window.MANGO_API_URL || 'http://localhost:8000';
+const API_BASE = 'https://web-production-617ea.up.railway.app';
 
 // ── DOM REFS ──────────────────────────────────────────────────────────────
 const chatWindow     = document.getElementById('chat-window');
