@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MangoAI — Your Intelligent Voice Assistant</title>
+  <meta name="description" content="MangoAI is a personal AI assistant powered by Google Gemini. Chat naturally to control your computer, get weather, news, set timers, and more." />
+  <meta name="keywords" content="AI assistant, Gemini, voice assistant, MangoAI, natural language" />
+  <meta property="og:title" content="MangoAI — Powered by Google Gemini" />
+  <meta property="og:description" content="Your intelligent personal assistant with 18 built-in capabilities." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── HERO HEADER ─────────────────────────────────────────────────────── -->
+  <header class="hero" id="hero">
+    <div class="hero-bg-orbs">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+    </div>
+    <nav class="nav">
+      <div class="nav-brand">
+        <span class="logo-emoji">🥭</span>
+        <span class="logo-text">MangoAI</span>
+      </div>
+      <div class="nav-links">
+        <a href="#chat-section" class="nav-link">Chat</a>
+        <a href="#capabilities-section" class="nav-link">Capabilities</a>
+        <a href="#tech-section" class="nav-link">Tech Stack</a>
+      </div>
+      <div class="nav-status">
+        <span class="status-dot" id="status-dot"></span>
+        <span class="status-text" id="status-text">Connecting…</span>
+      </div>
+    </nav>
+
+    <div class="hero-content">
+      <div class="hero-badge">Powered by Google Gemini 2.5 Flash</div>
+      <h1 class="hero-title">
+        Meet <span class="gradient-text">Mango</span>,<br />
+        your AI assistant
+      </h1>
+      <p class="hero-subtitle">
+        Natural conversation. Real actions. 18 built-in capabilities — from weather
+        to Wikipedia, timers to to-do lists — all driven by Gemini's function calling.
+      </p>
+      <div class="hero-cta">
+        <a href="#chat-section" class="btn btn-primary" id="start-chatting-btn">
+          <span>Start Chatting</span>
+          <span class="btn-arrow">→</span>
+        </a>
+        <a href="#capabilities-section" class="btn btn-ghost">See What It Can Do</a>
+      </div>
+
+      <!-- Floating stats -->
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-number">18</span>
+          <span class="stat-label">Tools</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-number">2.5</span>
+          <span class="stat-label">Gemini Flash</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-number">0ms</span>
+          <span class="stat-label">Wake Word Lag</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating mango -->
+    <div class="floating-mango" aria-hidden="true">🥭</div>
+  </header>
+
+  <!-- ── HOW IT WORKS ─────────────────────────────────────────────────────── -->
+  <section class="how-it-works" id="how-it-works">
+    <div class="container">
+      <h2 class="section-title">How It Works</h2>
+      <p class="section-subtitle">No rigid keyword matching — Gemini reads the available tools and decides which one to call.</p>
+
+      <div class="flow-steps">
+        <div class="flow-step" style="--i:0">
+          <div class="step-icon">🗣</div>
+          <div class="step-label">You say something</div>
+          <div class="step-example">"What's the weather in Delhi?"</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step" style="--i:1">
+          <div class="step-icon">🧠</div>
+          <div class="step-label">Gemini picks a tool</div>
+          <div class="step-example">Selects <code>get_weather()</code></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step" style="--i:2">
+          <div class="step-icon">⚡</div>
+          <div class="step-label">Tool executes</div>
+          <div class="step-example">Calls wttr.in API</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step" style="--i:3">
+          <div class="step-icon">💬</div>
+          <div class="step-label">You get an answer</div>
+          <div class="step-example">"Delhi: Sunny, 38°C"</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CHAT INTERFACE ──────────────────────────────────────────────────── -->
+  <section class="chat-section" id="chat-section">
+    <div class="container">
+      <div class="chat-header">
+        <h2 class="section-title">Try It Live</h2>
+        <p class="section-subtitle">Chat directly with Mango below. The AI is connected to the real backend.</p>
+        <button class="btn btn-ghost btn-sm" id="reset-btn" title="Start a new conversation">↺ New Chat</button>
+      </div>
+
+      <div class="chat-window" id="chat-window">
+        <!-- Welcome message -->
+        <div class="message message-ai" id="welcome-msg">
+          <div class="message-avatar">🥭</div>
+          <div class="message-bubble">
+            <p>Hey there! I'm <strong>Mango</strong> 👋</p>
+            <p>Ask me anything — weather, news, Wikipedia, set a timer, or just have a chat. Try one of the quick commands below!</p>
+            <div class="message-meta">
+              <span class="message-time">now</span>
+            </div>
+          </div>
+        </div>
+        <!-- Messages injected by JS -->
+      </div>
+
+      <!-- Quick command chips -->
+      <div class="quick-chips" id="quick-chips">
+        <button class="chip" data-prompt="What time is it?">🕐 Current time</button>
+        <button class="chip" data-prompt="What's the weather in Mumbai?">🌤 Mumbai weather</button>
+        <button class="chip" data-prompt="What's in the news today?">📰 Latest news</button>
+        <button class="chip" data-prompt="Search Wikipedia for artificial intelligence">📚 Wikipedia AI</button>
+        <button class="chip" data-prompt="Set a timer for 1 minute">⏱ 1 min timer</button>
+        <button class="chip" data-prompt="Add 'finish the project' to my to-do list">✅ Add to-do</button>
+        <button class="chip" data-prompt="Read my to-do list">📋 Read to-dos</button>
+        <button class="chip" data-prompt="Remember that my name is Alex">🧠 Save memory</button>
+      </div>
+
+      <!-- Input bar -->
+      <div class="chat-input-area">
+        <div class="chat-input-wrapper">
+          <textarea
+            id="chat-input"
+            class="chat-input"
+            placeholder="Ask Mango anything…"
+            rows="1"
+            aria-label="Chat message input"
+          ></textarea>
+          <button class="send-btn" id="send-btn" aria-label="Send message">
+            <svg class="send-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </div>
+        <p class="input-hint">Press <kbd>Enter</kbd> to send · <kbd>Shift+Enter</kbd> for new line</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CAPABILITIES GRID ───────────────────────────────────────────────── -->
+  <section class="capabilities-section" id="capabilities-section">
+    <div class="container">
+      <h2 class="section-title">18 Built-In Capabilities</h2>
+      <p class="section-subtitle">Every card below is a real Python function that Gemini can call on demand.</p>
+      <div class="capabilities-grid" id="capabilities-grid">
+        <!-- Injected by JS from /capabilities -->
+        <div class="cap-skeleton"></div>
+        <div class="cap-skeleton"></div>
+        <div class="cap-skeleton"></div>
+        <div class="cap-skeleton"></div>
+        <div class="cap-skeleton"></div>
+        <div class="cap-skeleton"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TECH STACK ──────────────────────────────────────────────────────── -->
+  <section class="tech-section" id="tech-section">
+    <div class="container">
+      <h2 class="section-title">Tech Stack</h2>
+      <p class="section-subtitle">Built entirely in Python with a clean, modular architecture.</p>
+      <div class="tech-grid">
+        <div class="tech-card">
+          <div class="tech-icon">🤖</div>
+          <div class="tech-name">Google Gemini 2.5 Flash</div>
+          <div class="tech-desc">AI model + function calling</div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon">⚡</div>
+          <div class="tech-name">FastAPI</div>
+          <div class="tech-desc">REST API bridge</div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon">🎙</div>
+          <div class="tech-name">SpeechRecognition</div>
+          <div class="tech-desc">Microphone input capture</div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon">🔊</div>
+          <div class="tech-name">pyttsx3</div>
+          <div class="tech-desc">Offline text-to-speech</div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon">🌐</div>
+          <div class="tech-name">requests + feedparser</div>
+          <div class="tech-desc">Weather & news APIs</div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon">🐍</div>
+          <div class="tech-name">Python 3.10+</div>
+          <div class="tech-desc">Core runtime</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ──────────────────────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="logo-emoji">🥭</span>
+        <span class="logo-text">MangoAI</span>
+      </div>
+      <p class="footer-note">
+        Built with ❤️ using Google Gemini · 
+        <a href="https://github.com/siddharthdhankhar/MangoAI" target="_blank" rel="noopener">GitHub</a>
+      </p>
+      <p class="footer-disclaimer">
+        System-control tools (open app, sleep, volume) require the API server running locally.
+      </p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

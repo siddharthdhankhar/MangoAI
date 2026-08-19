@@ -10,14 +10,32 @@ import time
 import json
 import datetime
 import threading
-import webbrowser
 import urllib.parse
 
 import requests
 import feedparser
-import pyautogui
 import wikipedia
-from AppOpener import open as app_open, close as app_close
+
+# Desktop-only imports — gracefully unavailable in hosted/server mode
+try:
+    import pyautogui
+    _HAS_GUI = True
+except Exception:
+    _HAS_GUI = False
+
+try:
+    import webbrowser
+    _HAS_BROWSER = True
+except Exception:
+    _HAS_BROWSER = False
+
+try:
+    from AppOpener import open as app_open, close as app_close
+    _HAS_APPOPENER = True
+except Exception:
+    _HAS_APPOPENER = False
+
+_HOSTED_MSG = "This feature controls your local desktop and only works when MangoAI is running on your own computer."
 
 
 # File paths
@@ -41,6 +59,8 @@ def get_current_date() -> str:
 
 def mute_volume() -> str:
     """Mute or unmute the system volume."""
+    if not _HAS_GUI:
+        return _HOSTED_MSG
     pyautogui.press("volumemute")
     return "Done."
 
@@ -49,6 +69,8 @@ def change_volume(direction: str) -> str:
     Raise or lower the volume.
     direction: "up" to increase, "down" to decrease.
     """
+    if not _HAS_GUI:
+        return _HOSTED_MSG
     key = "volumeup" if direction == "up" else "volumedown"
     for _ in range(5):
         pyautogui.press(key)
@@ -59,6 +81,8 @@ def control_media(action: str) -> str:
     Control music/video playback.
     action: "next", "previous", or "playpause".
     """
+    if not _HAS_GUI:
+        return _HOSTED_MSG
     mapping = {
         "next":      "nexttrack",
         "previous":  "prevtrack",
@@ -75,6 +99,8 @@ def open_website(website_name: str) -> str:
     Open a website in the browser.
     website_name: e.g. "google", "youtube", "gmail", "maps".
     """
+    if not _HAS_BROWSER:
+        return _HOSTED_MSG
     shortcuts = {
         "google":  "https://www.google.com",
         "youtube": "https://www.youtube.com",
@@ -85,12 +111,13 @@ def open_website(website_name: str) -> str:
     if url:
         webbrowser.open(url)
         return f"Opening {website_name}."
-    # fallback: Google search
     webbrowser.open(f"https://www.google.com/search?q={urllib.parse.quote(website_name)}")
     return f"Searching for {website_name}."
 
 def open_app(app_name: str) -> str:
     """Open an installed application by name."""
+    if not _HAS_APPOPENER:
+        return _HOSTED_MSG
     try:
         app_open(app_name, match_closest=True)
         return f"Opening {app_name}."
@@ -99,6 +126,8 @@ def open_app(app_name: str) -> str:
 
 def close_app(app_name: str) -> str:
     """Close a running application by name."""
+    if not _HAS_APPOPENER:
+        return _HOSTED_MSG
     try:
         app_close(app_name, match_closest=True)
         return f"Closing {app_name}."
@@ -107,6 +136,8 @@ def close_app(app_name: str) -> str:
 
 def sleep_computer() -> str:
     """Put the computer to sleep."""
+    if not _HAS_GUI:
+        return _HOSTED_MSG
     os.system("rundll32.exe powrprof.dll,SetSuspendState 0,1,0")
     return "Sleeping."
 
@@ -141,12 +172,16 @@ def get_latest_news() -> str:
 
 def play_music(song: str) -> str:
     """Search for a song on YouTube and open it."""
+    if not _HAS_BROWSER:
+        return _HOSTED_MSG
     query = urllib.parse.urlencode({"search_query": song})
     webbrowser.open(f"https://www.youtube.com/results?{query}")
     return f"Searching YouTube for '{song}'."
 
 def find_file(filename: str) -> str:
     """Find a file by name and open it (searches Desktop, Documents, Downloads)."""
+    if not _HAS_GUI:
+        return _HOSTED_MSG
     home = os.path.expanduser("~")
     for folder in ["Desktop", "Documents", "Downloads"]:
         for root, _, files in os.walk(os.path.join(home, folder)):
